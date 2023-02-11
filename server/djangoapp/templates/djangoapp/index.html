@@ -45,7 +45,25 @@
         </div>
       </nav>
     <!--Add a dealer table here -->
-
+    {% if dealer_names %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dealership Name</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for dealer in dealer_names %}
+            <tr>
+                <th scope="row"></th>
+                <td>{{ dealer }}</td>
+        {% endfor %}
+            </tr>
+            <tr>
+            </tbody>
+        </table>
+    {% endif %}
     </body>
 
 </html>
