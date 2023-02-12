@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_by_id_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -103,8 +103,22 @@ def get_dealer_details(request, dealer_id):
         context["dealer_reviews"] = reviews
         return render(request, 'djangoapp/dealer_details.html', context)
 
+def get_review_form(request, **kwargs):
+    context = {}
+    if request.method == "GET":
+        return render(request, 'djangoapp/add_review.html', context)
+
 # Create a `add_review` view to submit a review
-# def add_review(request, dealer_id):
-# ...
-
-
+def add_review(request, dealer_id):
+    if user.is_authenticated:
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/650772be-6b0d-416f-a9a5-2bae4e711b10/dealership-package/post-review.json"
+        review = dict()
+        review["time"] = datetime.utcnow().isoformat()
+        review["name"] = User.objects.get(username=username)
+        review["dealership"] = dealer_id
+        review["review"] = request.body.review
+        json_payload = dict()
+        json_payload["review"] = review
+        response = post_request(url, json_payload, dealer_id=dealer_id)
+        print(response)
+        return render(response, 'djangoapp/dealer_details.html')

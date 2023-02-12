@@ -30,7 +30,15 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
-
+def post_request(url, json_payload, **kwargs):
+    try:
+        response = requests.post(url, params=kwargs, json=json_payload)
+    except:
+        print("Post failed")
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
+    return json_data
 
 def get_dealers_from_cf(url, **kwargs):
     results = []
@@ -68,8 +76,6 @@ def get_dealer_by_id_from_cf(url, dealerId):
             results.append(review_obj)
 
     return results
-# - Call get_request() with specified arguments
-# - Parse JSON results into a DealerView object list
 
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
@@ -87,7 +93,9 @@ def analyze_review_sentiments(text):
 # - Get the returned sentiment label such as Positive or Negative
     response = natural_language_understanding.analyze(
         text=text,
+        language="en",
         features= Features(sentiment= SentimentOptions()),
     ).get_result()
-    print(json.dumps(response)) 
-    return response
+    print(json.dumps(response["sentiment"])) 
+    sentiment = response["sentiment"]["document"]["label"]
+    return sentiment

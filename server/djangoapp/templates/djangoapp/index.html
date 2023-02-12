@@ -51,14 +51,18 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Dealership Name</th>
-            <th scope="col">View Details</th>
+            <th scope="col">State</th>
+            <th scope="col">City</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
         {% for dealer in dealer_names %}
             <tr>
-                <th scope="row"></th>
+                <th scope="row">{{ dealer.id }}</th>
                 <td>{{ dealer.short_name }}</td>
+                <td>{{ dealer.state }}</td>
+                <td>{{ dealer.city }}</td>
                 <td><a href="{% url 'djangoapp:dealer_details' dealer.id %}">View details</a></td>
         {% endfor %}
             </tr>
