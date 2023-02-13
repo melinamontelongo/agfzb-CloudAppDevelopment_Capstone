@@ -112,17 +112,22 @@ def add_review(request, dealer_id):
         return render(request, 'djangoapp/add_review.html', context)
     if request.method == "POST":
         if request.user.is_authenticated:
-            url = "https://us-south.functions.cloud.ibm.com/api/v1/namespaces/650772be-6b0d-416f-a9a5-2bae4e711b10/actions/dealership-package/post-review"
+            url = "https://us-south.functions.appdomain.cloud/api/v1/web/650772be-6b0d-416f-a9a5-2bae4e711b10/dealership-package/post-review"
             review = dict()
-            review["time"] = datetime.utcnow().isoformat()
             review["dealership"] = dealer_id
             review["name"] = request.user.username
+            review["purchase_date"] = request.POST["date"]
+            review["car_make"] = request.POST["car_make"]
+            review["car_model"] = request.POST["car_model"]
+            review["car_year"] = request.POST["car_year"]
             review["review"] = request.POST["review"]
+            if "purchase" in request.POST:
+                review["purchase"] = True
+            else:
+               review["purchase"] = False 
             json_payload = dict()
             json_payload["review"] = review
-            print(json_payload)
             response = post_request(url, json_payload, dealer_id=dealer_id)
-            print(response)
             return redirect('djangoapp:dealer_details', dealer_id=dealer_id)
         else:
             return redirect("djangoapp/login")

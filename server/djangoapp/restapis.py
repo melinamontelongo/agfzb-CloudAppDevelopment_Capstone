@@ -31,14 +31,19 @@ def get_request(url, **kwargs):
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 def post_request(url, json_payload, **kwargs):
+    json_review = json_payload["review"]
+    print(json_review)
     try:
-        response = requests.post(url, params=kwargs, json=json_payload["review"])
+        response = requests.post(url, params=kwargs, json=json_review, headers={'Content-Type': 'application/json'})
     except:
         print("Post failed")
     status_code = response.status_code
     print("With status {} ".format(status_code))
-    json_data = json.loads(response.text)
-    return json_data
+    if response.text == None or response.text == '':
+        print('I got a null or empty string value for data in a file')
+    else:
+        json_data = json.loads(response.text)
+        return json_data
 
 def get_dealers_from_cf(url, **kwargs):
     results = []
@@ -70,7 +75,7 @@ def get_dealer_by_id_from_cf(url, dealerId):
         for review in reviews:
             # Create a CarDealer object with values in `doc` object
             review_obj = DealerReview(dealership=review["dealership"], review=review["review"], name=review["name"],
-                                   id=review["id"], purchase=review["purchase"], purchase_date=review["purchase_date"],
+                                    purchase=review["purchase"], purchase_date=review["purchase_date"],
                                    car_make=review["car_make"], car_model=review["car_model"],
                                    car_year=review["car_year"], sentiment=analyze_review_sentiments(review["review"]))
             results.append(review_obj)

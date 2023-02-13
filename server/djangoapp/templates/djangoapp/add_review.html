@@ -21,10 +21,10 @@
             <div class="collapse navbar-collapse" id="dealershipNavbar">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="about/">About us</a>
+                    <a class="nav-link" href="{% url 'about' %}">About us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact/">Contact Us</a>
+                    <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
                 </li>
               </ul>
               {% if user.is_authenticated %}
@@ -43,12 +43,39 @@
           </nav>
         
     <!--Add review form here -->
+    <h1>Write a review...</h1>
     <form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
         {% csrf_token %}
-<!--         <div class="form-group">
-            <label for="name">Name</label>
-            <input name="name" type="textarea" class="form-control" id="name" placeholder="Enter your name">
-          </div> -->
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" name="purchase"id="purchase">
+            <label class="form-check-label" for="purchase">
+              Did you purchase?
+            </label>
+          </div>
+          <div class="form-group">
+              <label for="date">
+                When did you purchase?
+              </label>
+            <input class="form-control" type="date" name="date" id="date">
+          </div>
+          <div class="form-group">
+            <label for="date">
+              Make of the car you purchased:
+            </label>
+          <input class="form-control" type="text" name="car_make" id="car_make">
+        </div>
+        <div class="form-group">
+            <label for="date">
+              Model of the car you purchased:
+            </label>
+          <input class="form-control" type="text" name="car_model" id="car_model">
+        </div>
+        <div class="form-group">
+            <label for="date">
+              Year of the car you purchased:
+            </label>
+          <input class="form-control" type="text" name="car_year" id="car_year">
+        </div>
         <div class="form-group">
           <label for="review">Review</label>
           <input name="review" type="textarea" class="form-control" id="review" placeholder="Enter your review">
