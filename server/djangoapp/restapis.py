@@ -32,7 +32,7 @@ def get_request(url, **kwargs):
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 def post_request(url, json_payload, **kwargs):
     try:
-        response = requests.post(url, params=kwargs, json=json_payload)
+        response = requests.post(url, params=kwargs, json=json_payload["review"])
     except:
         print("Post failed")
     status_code = response.status_code

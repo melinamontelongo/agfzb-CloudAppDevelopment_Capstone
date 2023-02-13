@@ -43,15 +43,15 @@
           </nav>
         
     <!--Add review form here -->
-    <form action="{% url 'djangoapp:add_review' %}" method="post">
+    <form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
         {% csrf_token %}
 <!--         <div class="form-group">
-          <label for="exampleInputEmail1">What did you purchase?</label>
-          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        </div> -->
+            <label for="name">Name</label>
+            <input name="name" type="textarea" class="form-control" id="name" placeholder="Enter your name">
+          </div> -->
         <div class="form-group">
           <label for="review">Review</label>
-          <input name="review" type="textarea" class="form-control" id="review" placeholder="Write your review">
+          <input name="review" type="textarea" class="form-control" id="review" placeholder="Enter your review">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

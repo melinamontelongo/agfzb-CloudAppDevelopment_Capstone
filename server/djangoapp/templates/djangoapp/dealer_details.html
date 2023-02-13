@@ -53,7 +53,7 @@
         </div>
         {% endfor %}
     {% endif %}
-    <a class="btn btn-link" href="add_review/">Add review</a>
+    <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer_id %}">Add review</a>
     </body>
 
 </html>

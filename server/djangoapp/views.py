@@ -101,24 +101,28 @@ def get_dealer_details(request, dealer_id):
         # Get dealers from the URL and dealer id parameter
         reviews = get_dealer_by_id_from_cf(url, query)
         context["dealer_reviews"] = reviews
+        context["dealer_id"] = dealer_id
         return render(request, 'djangoapp/dealer_details.html', context)
-
-def get_review_form(request, **kwargs):
-    context = {}
-    if request.method == "GET":
-        return render(request, 'djangoapp/add_review.html', context)
 
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
-    if user.is_authenticated:
-        url = "https://us-south.functions.appdomain.cloud/api/v1/web/650772be-6b0d-416f-a9a5-2bae4e711b10/dealership-package/post-review.json"
-        review = dict()
-        review["time"] = datetime.utcnow().isoformat()
-        review["name"] = User.objects.get(username=username)
-        review["dealership"] = dealer_id
-        review["review"] = request.body.review
-        json_payload = dict()
-        json_payload["review"] = review
-        response = post_request(url, json_payload, dealer_id=dealer_id)
-        print(response)
-        return render(response, 'djangoapp/dealer_details.html')
+    context = {}
+    if request.method == "GET":
+        context["dealer_id"] = dealer_id
+        return render(request, 'djangoapp/add_review.html', context)
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            url = "https://us-south.functions.cloud.ibm.com/api/v1/namespaces/650772be-6b0d-416f-a9a5-2bae4e711b10/actions/dealership-package/post-review"
+            review = dict()
+            review["time"] = datetime.utcnow().isoformat()
+            review["dealership"] = dealer_id
+            review["name"] = request.user.username
+            review["review"] = request.POST["review"]
+            json_payload = dict()
+            json_payload["review"] = review
+            print(json_payload)
+            response = post_request(url, json_payload, dealer_id=dealer_id)
+            print(response)
+            return redirect('djangoapp:dealer_details', dealer_id=dealer_id)
+        else:
+            return redirect("djangoapp/login")
