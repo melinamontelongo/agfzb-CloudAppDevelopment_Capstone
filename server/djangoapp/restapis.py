@@ -24,7 +24,7 @@ def get_request(url, **kwargs):
         print("Network exception occurred")
         return
     status_code = response.status_code
-    print("With status {} ".format(status_code))
+    print("Status code: {} ".format(status_code))
     json_data = json.loads(response.text)
     return json_data
 
@@ -32,15 +32,14 @@ def get_request(url, **kwargs):
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 def post_request(url, json_payload, **kwargs):
     json_review = json_payload["review"]
-    print(json_review)
     try:
         response = requests.post(url, params=kwargs, json=json_review, headers={'Content-Type': 'application/json'})
     except:
-        print("Post failed")
+        print("Error in POST")
     status_code = response.status_code
-    print("With status {} ".format(status_code))
+    print("Status code: {} ".format(status_code))
     if response.text == None or response.text == '':
-        print('I got a null or empty string value for data in a file')
+        print('Null or empty string value for data')
     else:
         json_data = json.loads(response.text)
         return json_data
@@ -101,6 +100,5 @@ def analyze_review_sentiments(text):
         language="en",
         features= Features(sentiment= SentimentOptions()),
     ).get_result()
-    print(json.dumps(response["sentiment"])) 
     sentiment = response["sentiment"]["document"]["label"]
     return sentiment

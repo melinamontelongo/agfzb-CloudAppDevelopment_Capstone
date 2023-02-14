@@ -40,20 +40,32 @@
         </div>
       </nav>
     <!-- Add reviews as cards -->
+    <div class="card-group">
     {% if dealer_reviews %}
         {% for review in dealer_reviews %}
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card text-center" style="width: 18rem;">
+            <div class="card-header text-muted">
+                <img class="card-img-top mx-auto" style="width: 5rem;" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" alt="Card image cap">
+              </div>
             <div class="card-body">
             <h5 class="card-title">{{review.name}}</h5>
-            <p class="card-text">{{review.review}}</p>
-            <p class="card-text">{{review.sentiment}}</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <p class="card-text">"{{review.review}}"</p>
             </div>
+            <div class="card-footer text-muted">
+                <p class="card-text">Car: {{review.car_make}}, {{review.car_model}}</p>
+                <p class="card-text">Purchased in: {{review.purchase_date}}</p>
+              </div>
         </div>
-        {% endfor %}
+              {% endfor %}
+              <div class="card text-center d-flex" style="width: 18rem;">
+                <div class="card-header align-middle text-muted">
+                    <h5 class="card-title" style="height: 4.3rem;">Leave your own review</h5>
+                  </div>
+                <div class="card-body">
+                    <a class="btn btn-primary mt-4 mx-auto" href="{% url 'djangoapp:add_review' dealer_id %}">Add review</a>
+                </div> 
+    </div>
     {% endif %}
-    <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer_id %}">Add review</a>
     </body>
 
 </html>

@@ -12,9 +12,7 @@ class CarMake(models.Model):
     country = models.CharField(max_length=30)
 # - __str__ method to print a car make object
     def __str__(self):
-        return "Name: " + self.name + "," + \
-               "Description: " + self.description + \
-                "Country: " + self.country 
+        return "Name: " + self.name 
 
 class CarModel(models.Model):
 # - Many-To-One relationship to Car Make model (One Car Make has many Car Models, using ForeignKey field)
@@ -46,12 +44,7 @@ class CarModel(models.Model):
     description = models.CharField(max_length=100)
 # - __str__ method to print a car make object
     def __str__(self):
-        return "Name: " + self.name + "," + \
-               "Description: " + self.description + \
-                "Dealer ID: " + self.dealer_id + \
-                "Type: " + self.type + \
-                "Year: " + self.year + \
-                "Description: " + self.description
+        return "Name: " + self.name
 
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data
 class CarDealer:

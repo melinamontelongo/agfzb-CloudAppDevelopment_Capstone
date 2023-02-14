@@ -21,10 +21,10 @@
             <div class="collapse navbar-collapse" id="dealershipNavbar">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'about' %}">About us</a>
+                    <a class="nav-link" href="{% url 'djangoapp:about' %}">About us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+                    <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
                 </li>
               </ul>
               {% if user.is_authenticated %}
@@ -76,9 +76,14 @@
             </label>
           <input class="form-control" type="text" name="car_year" id="car_year">
         </div>
+        <select name="car" id="car" class="form-select" required>
+            {% for car in cars %}
+                <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+            {% endfor %}
+       </select>
         <div class="form-group">
           <label for="review">Review</label>
-          <input name="review" type="textarea" class="form-control" id="review" placeholder="Enter your review">
+          <input name="review" type="textarea" class="form-control" id="review" placeholder="Enter your review" rows="2" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
