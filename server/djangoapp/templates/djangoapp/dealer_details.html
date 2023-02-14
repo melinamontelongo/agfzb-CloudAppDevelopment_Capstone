@@ -57,6 +57,7 @@
               </div>
         </div>
               {% endfor %}
+        {% endif %}
               <div class="card text-center d-flex" style="width: 18rem;">
                 <div class="card-header align-middle text-muted">
                     <h5 class="card-title" style="height: 4.3rem;">Leave your own review</h5>
@@ -65,7 +66,6 @@
                     <a class="btn btn-primary mt-4 mx-auto" href="{% url 'djangoapp:add_review' dealer_id %}">Add review</a>
                 </div> 
     </div>
-    {% endif %}
     </body>
 
 </html>
